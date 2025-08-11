@@ -1,0 +1,74 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mcp-beeper-texts"
+version = "0.0.2"
+description = "A local MCP server for Beeper Texts on macOS."
+readme = "README.md"
+authors = [
+    { name = "Tom Etminan" },
+]
+license = "MIT"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: MacOS",
+]
+requires-python = ">=3.10"
+dependencies = [
+    "mcp[cli]>=1.12.3",
+    "pydantic",
+    "pillow>=10.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/tetmin/mcp-beeper-texts"
+Issues = "https://github.com/tetmin/mcp-beeper-texts/issues"
+
+[project.scripts]
+mcp-beeper-texts = "mcp_beeper_texts.server:main"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src",
+    "/README.md",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mcp_beeper_texts"]
+
+[tool.uv.workspace]
+members = [
+    ".",
+]
+
+[tool.uv.sources]
+mcp-beeper-texts = { workspace = true }
+
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+# Optional: be explicit; ruff already ignores many of these by default
+exclude = [".venv", "dist", "build", ".ruff_cache"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]  # Pyflakes/pycodestyle + import sorting
+fixable = ["ALL"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["mcp_beeper_texts"]
+
+[dependency-groups]
+dev = [
+    "mcp-beeper-texts",
+    "pytest>=8.4.1",
+    "pytest-asyncio>=1.1.0",
+    "ruff>=0.12.7",
+]
